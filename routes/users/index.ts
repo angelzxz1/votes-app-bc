@@ -12,9 +12,22 @@ router.get("/", async (_req, res) => {
     }
 });
 
-router.get("/:id", (req, res) => {
-    const { id } = req.params;
-    res.send(`Detalles del usuario con ID: ${id}`);
+router.get("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await db.user.findUnique({
+            where: {
+                id: id,
+            },
+        });
+        if (!user) {
+            res.status(404).json({ message: "User not found" });
+        } else {
+            res.json({ user });
+        }
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 router.post("/", (req: Request, res: Response) => {

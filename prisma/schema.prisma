@@ -14,7 +14,7 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   name      String
   email     String   @unique
   votes     Vote[]
@@ -23,7 +23,7 @@ model User {
 }
 
 model Category {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   name      String   @unique
   votes     Vote[]
   createdAt DateTime @default(now())
@@ -31,9 +31,9 @@ model Category {
 }
 
 model Vote {
-  id          Int      @id @default(autoincrement())
-  userId      Int
-  categoryId  Int
+  id          String      @id @default(uuid())
+  userId      String
+  categoryId  String
   createdAt   DateTime @default(now())
 
   user        User     @relation(fields: [userId], references: [id])
