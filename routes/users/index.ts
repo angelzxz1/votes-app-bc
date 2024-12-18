@@ -1,9 +1,15 @@
 import { Router } from "express";
 import { Request, Response } from "express";
+import { db } from "../../libs/db";
 
 const router = Router();
-router.get("/", (_req, res) => {
-    res.send("Lista de usuarios");
+router.get("/", async (_req, res) => {
+    try {
+        const users = await db.user.findMany();
+        res.json({ users });
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 router.get("/:id", (req, res) => {
