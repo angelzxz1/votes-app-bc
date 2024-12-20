@@ -5,7 +5,7 @@ import { db } from "@libs/db";
 const router = Router();
 router.get("/", async (_req, res) => {
     try {
-        const users = await db.user.findMany();
+        const users = await db.category.findMany();
         res.json({ users });
     } catch (error) {
         console.log(error);
@@ -15,13 +15,13 @@ router.get("/", async (_req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await db.user.findUnique({
+        const user = await db.category.findUnique({
             where: {
                 id: id,
             },
         });
         if (!user) {
-            res.status(404).json({ message: "User not found" });
+            res.status(404).json({ message: "Category not found" });
         } else {
             res.json({ user });
         }
@@ -31,13 +31,9 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", (req: Request, res: Response) => {
-    const { username, password } = req.body;
-    if (!username) {
-        res.status(400).send("Missing Username");
-        return;
-    }
-    if (!password) {
-        res.status(400).send("Missing Password");
+    const { name } = req.body;
+    if (!name) {
+        res.status(400).send("Missing Category Name");
         return;
     }
     res.send("Usuario creado");
